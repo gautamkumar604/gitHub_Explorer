@@ -14,8 +14,8 @@ body {
   background-position: 50% 75%;
   background-size: 90% 65%;
   background-color: rgba(255, 255, 255, 0.466);
-  /* -webkit-backdrop-filter: blur(5px); */
-  /* backdrop-filter: blur(10px); */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
 }
 .container {
   display: flex;
@@ -83,8 +83,8 @@ main {
   margin-top: 2rem;
   padding: 1rem;
   background-color: rgba(255, 255, 255, 0.566);
-  /* -webkit-backdrop-filter: blur(5px); */
-  /* backdrop-filter: blur(5px); */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   border: 1px solid rgb(98, 91, 91);
 }
 .profile {
