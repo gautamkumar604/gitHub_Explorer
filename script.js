@@ -1,16 +1,39 @@
 // const profileURL = "https://api.github.com/users/gautamkumar604"
 const API_URL = "https://api.github.com/users/";
 
+async function mySearch() {
+  // Get the value from the input field
+  const input = document.getElementById("input").value;
+
+  if (!input) {
+    alert("Please enter a repository name");
+    return;
+  }
+  try {
+    let myArray = input.split("/");
+    const username = `${myArray[0]}`;
+    const repoName = `${myArray[1]}`;
+    getUser(username);
+    getRepos(username, repoName);
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    document.getElementById("result").innerHTML =
+      "<p>Error occurred while fetching data</p>";
+  }
+}
+function profile(){
+    window.open(`https://api.github.com/users/${username}` ,'_blank');
+}
 const main = document.querySelector("#main");
 const getUser = async (username) => {
   let response = await fetch(API_URL + username);
   let data = await response.json();
   const card = `<div class="card">
                     <div class="profile">
-                        <img class="img" src="${data.avatar_url}" alt="#" />
+                        <img class="img" src="${data.avatar_url}" alt="#" onclick='profile(${username})'/>
                         <div class="user">
-                            <h2 class="userName">${data.name}</h2>
-                            <h4 class="userId">${data.login}</h4>
+                            <h2 class="userName" onclick='profile(${data.login})'>${data.name}</h2>
+                            <h4 class="userId" onclick='profile(${data.login})'>${data.login}</h4>
                         </div>
                     </div>
                     <p class="bio">
@@ -53,23 +76,4 @@ const getRepos = async (username, repoName) => {
   }
 };
 
-async function mySearch() {
-  // Get the value from the input field
-  const input = document.getElementById("input").value;
 
-  if (!input) {
-    alert("Please enter a repository name");
-    return;
-  }
-  try {
-    let myArray = input.split("/");
-    const username = `${myArray[0]}`;
-    const repoName = `${myArray[1]}`;
-    getUser(username);
-    getRepos(username, repoName);
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-    document.getElementById("result").innerHTML =
-      "<p>Error occurred while fetching data</p>";
-  }
-}
