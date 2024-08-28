@@ -1,7 +1,6 @@
-// const profileURL = "https://api.github.com/users/gautamkumar604"
 const API_URL = "https://api.github.com/users/";
 
-async function mySearch() {
+let mySearch = async () => {
   // Get the value from the input field
   const input = document.getElementById("input").value;
 
@@ -20,20 +19,17 @@ async function mySearch() {
     document.getElementById("result").innerHTML =
       "<p>Error occurred while fetching data</p>";
   }
-}
-function profile(){
-    window.open(`https://api.github.com/users/${username}` ,'_blank');
-}
+};
 const main = document.querySelector("#main");
 const getUser = async (username) => {
   let response = await fetch(API_URL + username);
   let data = await response.json();
   const card = `<div class="card">
                     <div class="profile">
-                        <img class="img" src="${data.avatar_url}" alt="#" onclick='profile(${username})'/>
+                        <a href="https://github.com/${data.login}" target="_blank"><img class="img" src="${data.avatar_url}" alt="#"/></a>
                         <div class="user">
-                            <h2 class="userName" onclick='profile(${data.login})'>${data.name}</h2>
-                            <h4 class="userId" onclick='profile(${data.login})'>${data.login}</h4>
+                            <a href="https://github.com/${data.login}" target="_blank"><h3 class="userName">${data.name}</h3></a>
+                            <a href="https://github.com/${data.login}" target="_blank"><h5 class="userId">${data.login}</h5></a>
                         </div>
                     </div>
                     <p class="bio">
@@ -46,7 +42,7 @@ const getUser = async (username) => {
                     <p class="hr"></p>
                     </div>
                     <div class="repoInfo">
-                        <h2 class="repoName">repository name</h2>
+                        <a id="openRepo" href="" target="_blank"><h2 class="repoName">repository name</h2></a>
                         <p class="repoBio">This is repo description</p>
                     </div>
                 </div>`;
@@ -63,9 +59,11 @@ const getRepos = async (username, repoName) => {
     let repos = await response.json();
     let repoFound = repos.find((repo) => repo.name === repoName);
     if (repoFound) {
-      // console.log('Repository found:', repoFound);
-      document.querySelector(".repoBio").innerHTML = repoFound.description;
+      console.log("Repository found:", repoFound);
       document.querySelector(".repoName").innerHTML = repoFound.name;
+      document.querySelector(".repoBio").innerHTML = repoFound.description;
+      const link = document.getElementById("openRepo");
+      link.href = `https://github.com/${username}/${repoFound.name}`;
     } else {
       console.log("Repository not found");
       document.querySelector(".repoName").innerHTML = "null";
@@ -75,5 +73,3 @@ const getRepos = async (username, repoName) => {
     console.error("There was a problem with the fetch operation:", error);
   }
 };
-
-
